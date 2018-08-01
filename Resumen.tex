@@ -1,0 +1,800 @@
+\documentclass[10pt]{beamer}
+\usepackage{etex}
+\setbeamertemplate{navigation symbols}{}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\setcounter{tocdepth}{3}
+\usepackage{color}
+\usepackage{amsmath,comment,dcolumn,graphicx,letterspace,multicol,multirow}
+\usepackage{arrayjob,multido,ifthen,moreverb}
+\usepackage{pstricks,pst-plot,pst-node} % core PSTricks packages (loaded first)
+\usepackage[normalem]{ulem}
+\usepackage{multirow}
+\usepackage{helvet}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usepackage{cases}
+\usepackage{caption}
+\usepackage{multimedia}
+\usepackage{tabularx}
+
+%% Code listing
+\usepackage{listings}
+\usepackage{courier}
+\lstset{
+  basicstyle=\footnotesize\ttfamily, % Standardschrift
+  %numbers=left,               % Ort der Zeilennummern
+  numberstyle=\tiny,          % Stil der Zeilennummern
+  %stepnumber=2,               % Abstand zwischen den Zeilennummern
+  numbersep=5pt,              % Abstand der Nummern zum Text
+  tabsize=2,                  % Groesse von Tabs
+  extendedchars=true,         %
+  breaklines=true,            % Zeilen werden Umgebrochen
+  keywordstyle=\color{red},
+  %frame=b,
+  %        keywordstyle=[1]\textbf,    % Stil der Keywords
+  %        keywordstyle=[2]\textbf,    %
+  %        keywordstyle=[3]\textbf,    %
+  %        keywordstyle=[4]\textbf,   \sqrt{\sqrt{}} %
+  stringstyle=\color{white}\ttfamily, % Farbe der String
+  showspaces=false,           % Leerzeichen anzeigen ?
+  showtabs=false,             % Tabs anzeigen ?
+  xleftmargin=17pt,
+  framexleftmargin=17pt,
+  framexrightmargin=5pt,
+  framexbottommargin=4pt,
+  %backgroundcolor=\color{lightgray},
+  showstringspaces=false      % Leerzeichen in Strings anzeigen ?
+}
+\lstloadlanguages{% Check Dokumentation for further languages ...
+  %[Visual]Basic
+  %Pascal
+  %C
+  C++
+  %XML
+  %HTML
+  %Java
+}
+
+\usepackage{pgfpages}
+%\setbeameroption{show notes}
+%\setbeameroption{show notes on second screen=right}
+%\hypersetup{pdfpagemode=FullScreen}
+
+\usepackage{float}
+\usepackage[format=hang,singlelinecheck=0,font={sf,small},labelfont=bf]{subfig}
+\usepackage{caption}
+\usepackage[noabbrev]{cleveref}
+
+\captionsetup[subfigure]{subrefformat=simple,labelformat=simple,listofformat=subsimple}
+\renewcommand\thesubfigure{(\alph{subfigure})}
+
+\usepackage{subfig}
+
+\usetikzlibrary{matrix, patterns}
+
+\renewcommand<>{\emph}[1]{{\only#2{\em}#1}}
+
+\graphicspath{{assets/}}
+
+\newcolumntype{.}{D{.}{.}{-1}}
+\DeclareMathOperator*{\argmax}{argmax}
+\newcommand{\card}[1]{\ensuremath{\lvert{#1}\rvert}}
+\renewcommand{\v}[1]{\mathbf{#1}}
+\newcommand{\pstr}[4]{\rput[B](#1,#2){#3}\rput[B](#1,#2.8){#4}}
+
+\definecolor{orange}{HTML}{FF7F00}
+\definecolor{darkred}{HTML}{B40404}
+\definecolor{darkgreen}{HTML}{31B404}
+\definecolor{darkblue}{HTML}{0101DF}
+\definecolor{tLp}{rgb}{.65,.17,.16}
+\definecolor{tLs}{rgb}{.99,.30,.01}
+\newcommand{\translectures}{%
+  \textcolor{tLp}{\normalfont\sffamily trans}%
+  \hspace*{.25mm}%
+  \textcolor{tLs}{\bf\sffamily Lectures~}}
+\newcommand{\tl}{\translectures}
+
+\setbeamertemplate{frametitle}{
+  \vspace{1em}
+  \insertframetitle
+}
+
+\usetheme{CambridgeUS}
+\usecolortheme{dolphin}
+%\usetheme{JuanLesPins}
+
+\makeatletter
+\setbeamertemplate{footline}%{infolines theme}
+{
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{author
+        in head/foot}%
+      \usebeamerfont{author in 
+        head/foot}\insertshortauthor\expandafter
+    \end{beamercolorbox}%
+    %\begin{beamercolorbox}[wd=.20\paperwidth,ht=2.25ex,dp=1ex,center]{title
+    %in head/foot}%
+    %	\usebeamerfont{title in head/foot}\insertshorttitle
+    %\end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,right]{date
+        in head/foot}%
+      \usebeamerfont{date in 
+        head/foot}\insertshortinstitute {}\hspace*{2em}
+      \insertframenumber{} -- \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\makeatother
+
+\setbeamertemplate{itemize items}[triangle]
+\setbeamertemplate{enumerate items}[default]
+\setbeamertemplate{sections/subsections in toc}[sections numbered]
+
+\beamersetuncovermixins{\opaqueness<1>{25}}{\opaqueness<2->{15}}
+
+\begin{document}
+  \title[]{Resumen del libro Effective C++}
+  \author[feserr]{
+    \begin{tabular}{r@{ }l}
+      \multicolumn{2}{c}{feserr}
+    \end{tabular}
+  }
+  \institute[Resumen del libro Effective C++]
+  
+  \begin{frame}
+  \titlepage
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Accustoming yourself to \texttt{C++}}
+
+\subsection{Item 1: View C++ as a federation of languages.}
+\label{sec:item1}
+\begin{frame}
+\frametitle{Item 1: View C++ as a federation of languages}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 2: Prefer consts, enums, and inlines to \#defines.}
+\label{sec:item2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile,allowframebreaks]
+\frametitle{Item 2: Prefer consts, enums, and inlines to \#defines.}
+\begin{itemize}
+  \item Los \textbf{defines} pueden no reflejarse jamas en el compilador, este 
+  puede generar múltiples instancias de él y que no lo encapsule.
+  \item Los \textbf{define} no se pueden encapsular.
+
+  \item Sobre \textbf{const}:
+  \begin{itemize}
+    \item Solo se hace una instancia de la variable.
+    \item Si se quiere que sea única en la clase, hay que declararla 
+    \textbf{static}. Para ello será necesario definirlo, por ejemplo:
+
+    \lstinputlisting{assets/listings/item2-1.cpp}
+  \end{itemize}
+
+  \framebreak
+
+  \item Respecto a los \textbf{enum}
+  \begin{itemize}
+    \item Se hace uso del \textbf{enum hack} para definir variables, por ejemplo:
+
+    \lstinputlisting{assets/listings/item2-2.cpp}
+
+    \item Su uso es parecido al de \textbf{define}, pero con estos se puede 
+    obtener la dirección de memoria.
+  \end{itemize}
+  \item En cuanto a los \textbf{inline}
+  \begin{itemize}
+    \item Se usan para sustituir la creación de macros con \textbf{define}.
+    \item El uso de \textbf{define} hace que no se controlen bien ciertas
+      ejecuciones, dado que si se incrementa una variable de la macro, esta 
+      puede ocurrir en distintos casos. Por ejemplo:
+
+    \lstinputlisting{assets/listings/item2-3.cpp}
+
+    \item Con \textbf{inline} se permite la creacion de macros privadas.
+  \end{itemize}
+  \item Para constantes simples, usar objectos \textbf{const} o \textbf{enums} 
+    en vez de \textbf{\#defines}.
+  \item Para funciones tipo macros, usar \textbf{inline} en vez de 
+    \textsf{\#defines}.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 3: Use const whenever possible}
+\label{sec:item3}
+
+\begin{frame}[fragile,allowframebreaks]
+\frametitle{Item 3: Use const whenever possible}
+\begin{itemize}
+  \item Se verifican en tiempo de compilación.
+  \item Afectan al tipo de su izquierda.
+
+    \lstinputlisting{assets/listings/item3-1.cpp}
+
+  \item \textbf{const\_iterator} es como \textbf{const T\*}. Se puede usar para 
+  que el valor que se devuelva no pueda ser modificado, por ejemplo en una 
+  operación.
+  
+  \item Se puede usar cuando se quiere devolver una variable constante o 
+  normal. Por lo que se crea la función que devuelve el valor constante y luego 
+  para devolverla en su forma normal, haremos que el 
+  método \textbf{non-const} sea el que llame al constante de la siguiente 
+  manera.
+  
+  \framebreak
+
+  \lstinputlisting{assets/listings/item3-2.cpp}
+  
+  \framebreak
+
+  \item Si se pone antes de las llaves en una función, entonces especificamos 
+  que esa definición sera constante y no se puede modificar nada en la 
+  declaración (\textbf{bitwise constness}), por lo que para modificar una 
+  variable en la misma, habremos de señalar que es \textbf{mutable} 
+  (\textbf{logical constness}).
+  \item Usar \textbf{const} ayuda al compilador a detectar errores de uso. 
+  \textbf{const} se puede aplicar a cualquier tipo de objectos, parámetros de 
+  las funciones, tipos de retorno y al conjuntos de miembros de una función.
+  \item Los compiladores fuerzan a aplicar \textbf{bitwise constness}, pero se debe programar usando \textbf{logical constness}.
+  \item Cuando los miembros de una función son \textbf{const} y \textbf{non-const} tienen idéntica implementación, la duplicación de código puede ser evitada haciendo que la versión \textbf{non-const} llame a la versión \textbf{const}.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 4: Make sure that objects are initialized before they are used}
+\begin{frame}
+\frametitle{Item 4: Make sure that objects are initialized before they are 
+used}
+\label{sec:item4}
+\begin{itemize}
+  \item Hay que inicializar siempre las variables en el \textbf{constructor}, tanto en los que aceptan parámetros como en los de por defecto.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Constructors, destructors and assigment operators}
+
+\subsection{Item 5: Know what functions C++ silently writes and calls}
+\label{sec:item5}
+\begin{frame}
+\frametitle{Item 5: Know what functions C++ silently writes and calls}
+\begin{itemize}
+  \item Cuando creas una clase, sino declaras el \textbf{constructor}, \textbf{destructor}, \textbf{copy constructor} y \textbf{copy assigment operator} el compilador los creara \textbf{públicos} por ti.
+  \item Las funciones \textbf{copy constructor} y \textbf{copy assigment 
+  operator} básicamente copiaran los elemento \textbf{no estáticos} de un 
+  objecto al otro. Pero esto solo lo hará cuando sea posible, es decir, si se 
+  intenta copiar un \textbf{std::string} usará el \textbf{copy constructor} o 
+  \textbf{copy assigment operator} de esta clase, ya que esta declarado, o en 
+  el caso de que sea un elemento simple (p.e int) copiara los bits de uno a 
+  otro. En el caso de que sea una variable que no se pueda, p.e una variable 
+  \textbf{const}, el compilador no generara automáticamente estos métodos.
+  \item Es posible que el compilador genere implícitamente el \textbf{constructor}, \textbf{copy
+constructor}, \textbf{copy assignment operator} y \textbf{destructor}.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 6: Explicitly disallow the use of compiler generated functions 
+you do not want}
+\label{sec:item6}
+
+\begin{frame}
+\frametitle{Item 6: Explicitly disallow the use of compiler generated functions 
+you do not want}
+\begin{itemize}
+  \item Si no queremos que se hagan copias de nuestros objectos, debemos declarar los métodos \textbf{copy constructor} y \textbf{copy assigment operator} privados, de este modo el error saldrá en la fase de enlace.
+  \item Si queremos hacer que el error sea en compilación, deberemos crear una clase como la siguiente.
+
+  \begin{minipage}{\linewidth}
+  \lstinputlisting{assets/listings/item6-1.cpp}
+  \end{minipage}
+  De este modo, el objecto que no queramos que sea copiado, haremos que herede de forma privada del objecto anterior.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 7: Declare destructors virtual in polymorphic base classes}
+\label{sec:item7}
+
+\begin{frame}[fragile,allowframebreaks]
+\frametitle{Item 7: Declare destructors virtual in polymorphic base classes}
+\begin{itemize}
+  \item Si una clase base no declara virtual su destructor, cuando el objecto 
+    que herede de este e intente eliminarlo solo eliminara la memoria de la 
+    clase padre y no del objecto hijo.
+  \item Si una clase no tiene ninguna función virtual no esta 
+    orientada a ser una clase base o padre. Por lo tanto, su destructor
+    no tiene que ser virtual. Se deben obviar el uso de virtual ya que genera 
+    información extra, por ejemplo en la siguiente clase.
+
+  \lstinputlisting{assets/listings/item7-1.cpp}
+  
+  \framebreak
+  
+  \item Si un int ocupa 32 bit, esta clase cabrá en un registro de 64 bits. En
+    el caso de implementar alguna función \textbf{virtual} se requiere que
+    el objeto lleve información de que objecto se lanza la función
+    \textbf{virtual}. Esta información toma la forma de un puntero llamado
+    \texttt{vptr} (''virtual table pointer''). Este apunta a una array de
+    punteros a funciones llamado \texttt{vtbl} (''virtual table''); cada
+    clase con funciones virtuales tiene asociada una \texttt{vtbl}. En el
+    caso de que nuestra clase Point tuviese una función virtual ocuparía 64
+    bits por los dos enteros mas la mitad de dicha suma, en total unos 96
+    bits. Se estaría perdiendo memoria.
+  \item Hay que tener cuidado con heredar de clases de la \textbf{STL},
+    \textbf{string} o todos los tipos de
+    contenedores. Estos no tienen declarado el \textbf{destructor} de forma 
+  \textbf{virtual}.
+  \item Si quieres crear una clase base como abstracta pero no tienes ninguna
+    función virtual pura, la solución es crear su \textbf{destructor} como
+    \textbf{virtual puro}. De este modo sera abstracta y no nos
+    tendremos que preocupar por problemas al destruirla. La única desventaja es
+    que debemos definir el destructor en todos los hijos.
+  \item Solo las clases bases que vayan a ser poliformicas se les puede aplicar
+    la regla del \textbf{destructor virtual}. Aun así, si una clase tiene una 
+    función \textbf{virtual} su \textbf{destructor} ha de serlo también.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 8: Prevent exceptions from leaving destructors}
+\label{sec:item8}
+
+\begin{frame}
+\frametitle{Item 8: Prevent exceptions from leaving destructors}
+\begin{itemize}
+  \item En un \textbf{destructor} no pueden haber llamadas que generen
+    excepciones. Dependiendo de que tipo sea, puede abortar el programa o dar
+    un comportamiento indefinido y dejar memoria por liberar (corrupta).
+  \item Se puede solucionar usando \texttt{try} y \texttt{catch} parando la  
+    ejecución cuando salta una excepción o continuar, dejando memoria por
+    liberar, y avisar al programador.
+  \item Una manera de solucionarlo es crear un método que libere la memoria y
+    en el \textbf{destructor} comprobar que si no esta liberada usar lo
+    expuesto en el punto anterior. No es una manera muy elegante de
+    solucionarlo, ya que dejas la responsabilidad al programador, pero le das la
+    oportunidad de que trate los errores a que no tengan oportunidad de
+    reaccionar a los mismos.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 9: Never call virtual functions during construction or 
+destruction}
+\label{sec:item9}
+
+\begin{frame}
+\frametitle{Item 9: Never call virtual functions during construction or 
+destruction}
+\begin{itemize}
+  \item Si creamos una clase base que el \textbf{constructor} o 
+    \textbf{destructor} llaman a una función virtual para modificar unas 
+    variables, cuando un objecto herede de
+    esta dará comportamientos inesperados. El problema radica en que cuando un
+    objecto que hereda de otro se construye o se destruye primero llama a los
+    métodos de la clase base y luego a los derivados, esto es porque antes de
+    llamar a sus métodos derivados, el objecto es tratado como si fuese de la
+    clase base, nada del objeto derivado existe. Por lo tanto, si llama a los
+    métodos virtuales, por mucho que los redeclaremos en el derivado, el
+    seguirá llamando a los de la clase base, y esto hará que las variables
+    modificadas se queden como \textbf{undefined}.
+  \item Esto también pasa si el constructor de la clase base llama a un método 
+    que a su vez este llama a un método virtual. Con esto conseguimos engañar 
+    al compilador para que no nos pueda avisar en  la fase de compilación.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 10: Have assignment operators return a reference to *this}
+\label{sec:item10}
+
+\begin{frame}
+\frametitle{Item 10: Have assignment operators return a reference to *this}
+\begin{itemize}
+  \item Las asignaciones en C++ pueden encadenarse.
+  
+  \begin{minipage}{\linewidth}
+  x = y = z = 15;
+  \end{minipage}
+  
+  También hay que decir que son \textit{right-associative}, por lo tanto:
+  
+  \begin{minipage}{\linewidth}
+  (x = (y = (z = 15)));
+  \end{minipage}
+  
+  En este ejemplo el resultado de \texttt{z} se devuelve y lo coge \texttt{y} que a su vez lo devuelve y lo obtiene \texttt{x}
+  
+  \item Para conseguir esto debemos devolver \textbf{*this} siempre que 
+  declaremos o sobrescribamos métodos de asignación.
+  
+  \lstinputlisting{assets/listings/item10-1.cpp}
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 11: Handle assignment to self in operator=}
+\label{sec:item11}
+
+\begin{frame}[fragile,allowframebreaks]
+\frametitle{Item 11: Handle assignment to self in operator=}
+\begin{itemize}
+  \item Es probable que sin darnos cuentas hagamos un \textit{self assigment}, por ejemplo:
+  
+  \lstinputlisting{assets/listings/item11-1.cpp}
+  
+  \framebreak
+  
+  \begin{itemize}
+    \item Ejemplo 1: Vemos como claramente asignamos el mismo objecto a si     
+      mismo.
+    \item Ejemplo 2: En el caso de que i y j apunten al mismo objeto se causara 
+      un \textit{self assigment}.
+    \item Ejemplo 3: En temas de herencia, podemos tener que una referencia o 
+      puntero del objeto base sea el mismo que el del objeto derivado.
+  \end{itemize}
+
+  \framebreak
+  
+  \item Esto pasa si nuestro método de asignación es del siguiente modo:
+  
+  \lstinputlisting{assets/listings/item11-2.cpp}
+
+  \framebreak
+  
+  \item En el caso de que estemos usando esto con el mismo objeto, cuando 
+  eliminamos el \texttt{bitmap} actual también eliminamos el otro, dado que es 
+  el mismo. Una solución seria:
+  
+  \lstinputlisting{assets/listings/item11-3.cpp}
+  
+  \item El problema de esta solución es que es \texttt{exception-unsafe}. Puede 
+  que 
+  el nuevo \texttt{bitmap} contenga una excepción (porque no queda memoria o 
+  porque el constructor lance una), en este caso apuntará a un objecto 
+  eliminado (\textbf{dangling pointer}).
+  
+  \framebreak
+  
+  \item Si queremos solucionar el problema de \textit{self assigment} y  
+    \texttt{exception-unsafe} deberemos guardamos una copia del objecto
+    original, cambiarlo por el nuevo objecto y eliminar la copia. También
+    podríamos proceder construyendo un objecto temporal con el objecto nuevo y
+    luego intercambiarlo con el original. Podemos ver la solución en el
+    siguiente ejemplo.
+    
+  \framebreak
+  
+  \lstinputlisting{assets/listings/item11-4.cpp}
+
+  \framebreak
+  
+  \item El segundo ejemplo hace lo mismo que el primero pero construye la copia 
+  en el 
+  parámetro al ser pasado por valor. Este método puede ser mejor dado que los 
+  compiladores a veces generan código mejor optimizado.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 12: Copy all parts of an object}
+\label{sec:item12}
+
+\begin{frame}
+\frametitle{Item 12: Copy all parts of an object}
+\begin{itemize}
+  \item Cuando sobrecargamos la función de \textit{copy assignment} tenemos que 
+  acordarnos de copiar todos las variables y objectos al nuevo.
+  \item Es fácil olvidarnos de copiarlo todo cuando la clase es hija de otra.
+  En este caso debemos llamar a la función de \textit{copy assignment} de la 
+  clase padre, porque sino no estaremos copiando todos los elementos, por el 
+  hecho de que cuando nuestra clase es hija de otra, esta también es una clase 
+  padre por dentro.
+  \item Al copiar los datos de las variables que son objetos y de la clase 
+  padre hay que hacerlo usando la funciones de copia apropiadas.
+  \item Cuando el comportamiento del \textit{copy constructor} y \textit{copy 
+  assignment} es igual es mejor crear una tercera función que sea llamada por 
+  los dos.
+  \item Hay que tener especial cuidado con no llamar al \textit{copy 
+  constructor} en el \textit{copy assignment} y viceversa si no queremos que la 
+  memoria se corrompa o surjan comportamientos extraños.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Resource management}
+
+\subsection{Item 13: Use objects to manage resource}
+\label{sec:item13}
+
+\begin{frame}
+\frametitle{Item 13: Use objects to manage resource}
+\begin{itemize}
+  \item Cuando creamos un objeto dinámico siempre ha de ser eliminado antes de 
+  que el programa se cierre si no queremos dejar memoria corrupta.
+  \item En el caso de crear un objeto en una función y eliminarla al final 
+  puede crear muchos problemas. En un principio estamos eliminando el objeto 
+  que hemos creado, pero solo cuando ha llegado al final de la misma. Si se 
+  activase un retorno antes estariamos dejando memoria por liberar. También 
+  puede ocurrir si creamos y eliminamos objetos dentro de un bucle y en este 
+  hay \textit{break} y \textit{goto}. No hay que olvidarse de funciones que 
+  pueden lanzar excepciones.
+  \item Para ello existe \textit{auto\_ptr} y \textit{shared\_ptr}. Estos dos 
+  objetos de la STL se encargan de liberar la memoria cuando el programa a 
+  terminado, están fuera del alcance, y en los casos descritos anteriormente.
+  Eso si, estos objetos llaman a \textit{delete} para liberar su memoria, por 
+  lo que no son candidatos de ser usados en \textit{arrays}.
+  \item Algo positivo de \textit{auto\_ptr} y \textit{shared\_ptr} es que 
+  siguen 
+  la política RAII y que siempre serán eliminados no importa el comportamiento 
+  que tenga el programa.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 14: Think carefully about copying behavior in 
+resource-managing classes}
+\label{sec:item14}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 14: Think carefully about copying behavior in 
+resource-managing classes}
+\begin{itemize}
+    \item No los recursos se generan dinámicamente, y para ellos usar  
+    \textit{auto\_ptr} o \textit{shared\_ptr} no sirven, por lo que tendrás que 
+    crear uno propio.
+    \item Si, por ejemplo, queremos uno que manipule objetos del tipo 
+    \textit{Mutex} que ofrecen la función \textit{lock} y \textit{unlock}:
+\end{itemize}
+
+\lstinputlisting{assets/listings/item14-1.cpp}
+
+\framebreak
+
+\begin{itemize}
+    \item En el caso de usar este objeto, cuando se salga del alcance de la 
+    función, se desbloqueará automáticamente por el hecho de que su destructor 
+    hace eso.
+    \item El problema que puede crear es si copiamos el objeto a otro nuevo, si 
+    uno se destruye desbloqueará el \textit{mutex} y aun queda otro objeto que 
+    sigue bloqueado.
+    \item Para ello hay diferentes soluciones:
+    \begin{itemize}
+        \item Prohibir la copia. Declararemos privado las funciones de copia.
+        \item Llevaremos una cuenta de cuantos objetos se han creado y solo 
+        llamar al destructor cuando no quedan más.
+    \end{itemize}
+    \item El comportamiento de la copia en las clases RAII más comunes es no 
+    permitir la copia del recursos en si. Para ello llevan la cuenta de el 
+    número de referencias que se han hecho, aun así existen otros tipos de 
+    comportamiento posibles.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 15: Provide access to raw resources in resource-managing 
+classes}
+\label{sec:item15}
+
+\begin{frame}
+\frametitle{Item 15: Provide access to raw resources in resource-managing 
+classes}
+\begin{itemize}
+  \item Cuando creamos un API las clases están hechas para que interactuaremos 
+  con ellas, pero hay veces que es necesario permitir al usuario poder acceder 
+  al recurso \textit{raw}.
+  \item Para ello se puede hacer de dos formas: explicita o implícita.
+  \item La forma explicita será devolver el recurso \textit{raw} mediante la 
+  llamada a una función.
+  \item La forma implícita será sobrecargar el operador de llamada para que 
+  devuelva el recurso \textit{raw}.
+  \item El problema que puede generar es que asociemos ese recurso \textit{raw} 
+  a, por ejemplo, una clase hija del mismo. El programa compilará, pero objeto 
+  hijo solo tendrá la información del padre, la otra sera indefinida. No hay 
+  que olvidarse de si liberamos el objeto padre, el objeto hijo se convertirá 
+  en un \textit{dangling pointer}.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 16: Use the same form in corresponding uses of \texttt{new} 
+and \texttt{delete}}
+\label{sec:item16}
+
+\begin{frame}
+\frametitle{Item 16: Use the same form in corresponding uses of \texttt{new} 
+and \texttt{delete}}
+\begin{itemize}
+  \item Si usas [] con \textit{new}, debes usar [] en su correspondiente 
+  \textit{delete}. Si no usas [] con \textit{new}, no debes usar [] cuando 
+  llames a \textit{delete}.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 17: Store \texttt{new}ed objects in smart pointers in 
+standalone statements}
+\label{sec:item17}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 17: Store \texttt{new}ed objects in smart pointers in 
+  standalone statements}
+\begin{itemize}
+  \item Las funciones pueden requerir el puntero de un objeto en uno de sus 
+  parametros. Si este es del tipo \textit{smart\_ptr} podriamos crearlo en la 
+  misma llamada.
+\end{itemize}
+
+\lstinputlisting{assets/listings/item17-1.cpp}
+
+\framebreak
+
+\begin{itemize}
+  \item Hacer esto nos lleva a un comportamiento indefinido por el hecho de que 
+  no hay un orden definido por el compilador.
+  \item El compilador puede generar el código de forma errónea ya que el orden 
+  en que ejecuta las llamadas no siempre es el mismo. Un caso correcto seria:
+  \begin{itemize}
+    \item Llama a \textit{priority}.
+    \item Ejecuta ``new Widget''.
+    \item Llama al constructor de \textit{shared\_ptr}.
+  \end{itemize}
+  \item Pero podría darse el caso en que hiciera:
+  \begin{itemize}
+    \item Ejecuta ``new Widget''.
+    \item Llama a \textit{priority}.
+    \item Llama al constructor de \textit{shared\_ptr}.
+  \end{itemize}
+  \item Entonces en el caso de que \textit{priority} causase una excepción se 
+  generaría una corrupción de memoria.
+  \item Por lo tanto, al usar \textit{smart pointers} la solución optima es 
+  almacenar en una variable y usarla para llamar a la función.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Designs and declarations}
+
+\subsection{Item 18: Make interfaces easy to use correctly and hard to use 
+incorrectly}
+\label{sec:item18}
+
+\begin{frame}
+\frametitle{Item 18: Make interfaces easy to use correctly and hard to use 
+incorrectly}
+\begin{itemize}
+  \item Para evitar que el usuario use un valor equivocado en las variables, se
+   pueden crear clases o \textit{structs} que ostentan funciones para crearlos.
+   De esa manera no se podrá poner datos erróneos.
+  \item Usar \textit{shared\_ptr} que soportan destructores personalizados. Con
+  ello prevenimos problemas con DLLs multiplataforma.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 19: Treat class design as type design}
+\label{sec:item19}
+
+\begin{frame}
+\frametitle{Item 19: Treat class design as type design}
+\begin{itemize}
+  \item El diseño de clases es diseño de tipos. Cuando crees un nuevo tipo, 
+  considera todas las preguntas de este apartado (Véase en el libro).
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 20: Prefer pass-by-reference-to-const to pass-by-value}
+\label{sec:item20}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 20: Prefer pass-by-reference-to-const to pass-by-value}
+\begin{itemize}
+  \item Cuando usamos \textit{pass-by-value} con una clases esta tiene que 
+  llamar al constructor para crearla al inicio de la función y luego al 
+  destructor al terminar.
+  \item Si esta clase es hija de otra o otras clases todas estas tienen que 
+  llamar a su constructor y a su destructor.
+  \item Si alguna de todas estas clases tiene variables no primitivas también 
+  habrán que crearse y destruirse.
+  \item Por ello si usamos \textit{pass-by-reference-to-const} se evitan todas 
+  las llamadas a constructores y destructores.
+  \framebreak
+  \item Otro error común con al usar \textit{pass-by-value} es usar la clase 
+  base como argumento. De este modo, al pasar usando \textit{pass-by-value} una 
+  clase hija, esta sera \textit{sliced} y solo se creara una variable con los 
+  valores de la clase base y no de la hija.
+  \item Usa siempre que sea posible \textit{pass-by-reference-to-const} en vez 
+  de \textit{pass-by-value}, evitas tanto problemas de \textit{slice} y es más 
+  eficiente.
+  \item Esta regla no se aplica a tipos primitivos ni iteradores y objetos de 
+  la STL. Para ellos es más apropiado usar \textit{pass-by-value}.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 21: Don't try to return a reference when you must return an 
+object}
+\label{sec:item21}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 21: Don't try to return a reference when you must return an 
+object}
+\begin{itemize}
+  \item Usar \textit{pass-by-reference-to-const} o devolver 
+  \textit{const-reference} no es siempre la mejor solución.
+  \item Si devolvemos una \textit{const-reference} de un objeto creado en el 
+  \textit{heap} ya que al salir de la función este se destruirá.
+  \item Si devolvemos una \textit{const-reference} de un objeto creado en el 
+  \textit{stack} el usuario tendrá que acordarse de llamar a su destructor, aun 
+  así se pueden dar casos en que sea posible acceder al objeto en cuestión y 
+  tendremos \textit{memory leaks}.
+  \framebreak
+  \item Si devolvemos una \textit{const-reference} de un objeto \textit{static} 
+  tendremos problemas, por ejemplo, si lo usamos para sobrecargar el operador 
+  de multiplicación, si comparamos dos multiplicaciones que usan la misma 
+  función, da igual que valores usemos siempre serán igual, debido a que la 
+  variable \textit{static} no cambia. También hace que esa función no sea 
+  \textit{thread safe}.
+  \item Una posible solución es usar el comando \textit{inline} para devolver 
+  el objecto como \textit{const-reference}, de ese modo se creará en el 
+  \textit{scope} que deseamos.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 22: Declare data members private}
+\label{sec:item22}
+
+\begin{frame}
+\frametitle{Item 22: Declare data members private}
+\begin{itemize}
+  \item Todas las variables de una clase han de ser privadas y que estas puedan 
+  ser alteradas, si se desea, por funciones \textit{get} y \textit{set}.
+  \item La finalidad de hacerlas todas privadas sirven para evitar que el 
+  usuario las use y obligarle a que use dichas funciones que se han creado.
+  \item Evitar que el usuario pueda hacer uso de las variables de una clase 
+  hace que sea posible eliminarlas o modificarlas en un futuro, ya que de ser 
+  publicas o protegidas, los usuarios deberían modificar su código si estas han 
+  sido alteradas.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
