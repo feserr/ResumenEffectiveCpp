@@ -797,4 +797,35 @@ object}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsection{Item 23: Prefer non-member non-friend functions to member functions}
+\label{sec:item23}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 23: Prefer non-member non-friend functions to member functions}
+\begin{itemize}
+  \item No siempre todas las funciones para manejar una clase han de 
+  pertenecer a esta misma. Por ejemplo con la siguiente clase:
+  \lstinputlisting{assets/listings/item23-1.cpp}
+  \item Crear una función que llame a estas tres seria lo más común, pero la 
+  pregunta seria si hacerla parte de la clase o una externa que recibe un 
+  \textit{WebBrowser} por parámetro y llama a esas funciones.
+  \item Hacerla parte de la clase sería lo más obvio y lo que se supone que es 
+  lo que dicta la programación orientada a objetos, sin embargo no es así, 
+  sería entenderlo incorrectamente.
+  \framebreak
+  \item La programación orientada a objetos dicta que la información debe estar 
+  encapsulada lo máximo posible. Las funciones de una clase o una amiga 
+  pueden acceder a la información privada, por lo tanto, de querer crear 
+  nuestro método, es mucho mejor que sea una función externa la que proceda.
+  \item Esta función puede pertenecer al mismo \textbf{namespace} que la clase, 
+  no obstante, deberá localizarse en archivos distintos, es así como funciona 
+  la STL. El código quedaría de la siguiente forma.
+  \framebreak
+  \lstinputlisting{assets/listings/item23-2.cpp}
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \end{document}
