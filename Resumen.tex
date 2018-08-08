@@ -151,6 +151,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}[allowframebreaks]
+\frametitle{Índice}
+\tableofcontents[sections={1-2}]
+\framebreak
+\tableofcontents[sections={3}]
+\framebreak
+\tableofcontents[sections={4}]
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Accustoming yourself to \texttt{C++}}
 
 \subsection{Item 1: View C++ as a federation of languages.}
@@ -625,13 +637,13 @@ classes}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Item 16: Use the same form in corresponding uses of \texttt{new} 
-and \texttt{delete}}
+\subsection{Item 16: Use the same form in corresponding uses of \textit{new} 
+and \textit{delete}}
 \label{sec:item16}
 
 \begin{frame}
-\frametitle{Item 16: Use the same form in corresponding uses of \texttt{new} 
-and \texttt{delete}}
+\frametitle{Item 16: Use the same form in corresponding uses of \textit{new} 
+and \textit{delete}}
 \begin{itemize}
   \item Si usas [] con \textit{new}, debes usar [] en su correspondiente 
   \textit{delete}. Si no usas [] con \textit{new}, no debes usar [] cuando 
@@ -641,12 +653,12 @@ and \texttt{delete}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Item 17: Store \texttt{new}ed objects in smart pointers in 
+\subsection{Item 17: Store \textit{new}ed objects in smart pointers in 
 standalone statements}
 \label{sec:item17}
 
 \begin{frame}[allowframebreaks]
-\frametitle{Item 17: Store \texttt{new}ed objects in smart pointers in 
+\frametitle{Item 17: Store \textit{new}ed objects in smart pointers in 
   standalone statements}
 \begin{itemize}
   \item Las funciones pueden requerir el puntero de un objeto en uno de sus 
@@ -824,6 +836,48 @@ object}
   \lstinputlisting{assets/listings/item23-2.cpp}
 \end{itemize}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 24: Declare non-member functions when type conversions should 
+apply to all parameters}
+\label{sec:item24}
+
+\begin{frame}
+\frametitle{Item 24: Declare non-member functions when type conversions should 
+apply to all parameters}
+\begin{itemize}
+  \item En el caso de crear un nuevo tipo de datos, si este solo se usa para 
+  operar con el mismo no hay problema, pero en el caso de querer operar con 
+  otros tipos, por ejemplo, con los primitivos es cuando empiezan los problemas.
+  \item La solución es declarar el operador que se desea utilizar fuera de la 
+  clase, debido a que si es parte de la clase solo estos pueden usarlos.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 25: Consider support for a non-throwing swap}
+\label{sec:item25}
+
+\begin{frame}
+\frametitle{Item 25: Consider support for a non-throwing swap}
+\begin{itemize}
+  \item Declara la función \textbf{swap} cuando \textbf{std::swap} vaya a ser 
+  ineficiente. Ten en cuenta de que esta no lance excepciones.
+  \item Si ofreces una función miembro \textbf{swap}, también tienes que 
+  ofrecer una que no sea miembro que llame a la miembro. Para las clases (no 
+  \textbf{templates}), hazlas parte de \textbf{std::swap} también.
+  \item Cuando llamemos a \textbf{swap}, utiliza \textbf{using} de 
+  \textbf{std::swap} y usa el método sin el \textbf{namespace}, para que así el 
+  compilador pueda usar la mejor opción de todas.
+  \item Esta bien añadir especializaciones nuevas a los \textbf{templates} de 
+  la STD para tipos creados por el usuario, pero nunca intentes añadir algo 
+  totalmente nuevo a la STD.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
