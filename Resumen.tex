@@ -882,4 +882,33 @@ apply to all parameters}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Implementations}
+
+\subsection{Item 26: Postpone variables definitions as long as possible}
+\label{sec:item26}
+
+\begin{frame}
+\frametitle{Item 26: Postpone variables definitions as long as possible}
+\begin{itemize}
+	\item Declarar variables no es gratis ya que supone llamar a su 
+	\textbf{constructor} cuando se crea y a su \textbf{destructor} cuando sale 
+	fuera del \textbf{scope}.
+	\item En todo momento tienes que retrasar la definición de las variables 
+	hasta lo más tarde que puedas.
+	\item En todo momento has de asignar a la variable con información y no 
+	crearla y luego asignarle el valor ya que esto incurriría en un coste de 
+	asignación extra después de construirla.
+	\item Para bucles es mejor declarar la variables fuera del mismo, solo 
+	tienes que recordar que esta variable se destruirá cuando este fuera del 
+	\textbf{scope} que posiblemente sea al final de la función.
+	\item En el caso que estés en una parte critica del código, es mejor 
+	declarar la variable dentro del bucle.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \end{document}
