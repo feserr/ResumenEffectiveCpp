@@ -552,16 +552,16 @@ destruction}
   \item En el caso de crear un objeto en una función y eliminarla al final 
   puede crear muchos problemas. En un principio estamos eliminando el objeto 
   que hemos creado, pero solo cuando ha llegado al final de la misma. Si se 
-  activase un retorno antes estariamos dejando memoria por liberar. También 
+  activase antes un retorno estaríamos dejando memoria por liberar. También 
   puede ocurrir si creamos y eliminamos objetos dentro de un bucle y en este 
-  hay \textit{break} y \textit{goto}. No hay que olvidarse de funciones que 
+  hay \textit{break} o \textit{goto}. No hay que olvidarse de las funciones que 
   pueden lanzar excepciones.
-  \item Para ello existe \textit{auto\_ptr} y \textit{shared\_ptr}. Estos dos 
+  \item Para ello existe \textit{unique\_ptr} y \textit{shared\_ptr}. Estos dos 
   objetos de la STL se encargan de liberar la memoria cuando el programa a 
   terminado, están fuera del alcance, y en los casos descritos anteriormente.
   Eso si, estos objetos llaman a \textit{delete} para liberar su memoria, por 
   lo que no son candidatos de ser usados en \textit{arrays}.
-  \item Algo positivo de \textit{auto\_ptr} y \textit{shared\_ptr} es que 
+  \item Algo positivo de \textit{unique\_ptr} y \textit{shared\_ptr} es que 
   siguen 
   la política RAII y que siempre serán eliminados no importa el comportamiento 
   que tenga el programa.
@@ -579,7 +579,8 @@ resource-managing classes}
 resource-managing classes}
 \begin{itemize}
     \item No los recursos se generan dinámicamente, y para ellos usar  
-    \textit{auto\_ptr} o \textit{shared\_ptr} no sirven, por lo que tendrás que 
+    \textit{unique\_ptr} o \textit{shared\_ptr} no sirven, por lo que tendrás 
+    que 
     crear uno propio.
     \item Si, por ejemplo, queremos uno que manipule objetos del tipo 
     \textit{Mutex} que ofrecen la función \textit{lock} y \textit{unlock}:
