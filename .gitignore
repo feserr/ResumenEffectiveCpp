@@ -243,3 +243,5 @@ TSWLatexianTemp*
 
 # others
 .history_*
+.DS_Store
+.vscode
