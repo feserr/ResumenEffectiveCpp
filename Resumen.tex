@@ -949,10 +949,32 @@ apply to all parameters}
 \subsection{Item 28: Avoid returning ``handles'' to object internals}
 \label{sec:item28}
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Item 28: Avoid returning ``handles'' to object internals}
 \begin{itemize}
-	\item
+	\item \textbf{handles} son referencias, punteros y iteradores.
+	\item \textbf{Pass-by-reference} es mejor que \textbf{pass-by-value}. Un 
+	error seria intentar hacer lo mismo para los objetos que se devuelven en las 
+	funciones.
+	\item El problema de devolver \textbf{handles} es que se puede acceder a todo 
+	el objeto y podría llegar al siguiente problema.
+	\lstinputlisting{assets/listings/item28-1.cpp}
+	\framebreak
+	\item Una solución seria hacer:
+	\lstinputlisting{assets/listings/item28-2.cpp}
+	\item Aunque esto genera otro problema que se llama \textbf{dangling handles} 
+	que son \textbf{handles} que referencia a un objeto que ya no existe.
+	\framebreak
+	\lstinputlisting{assets/listings/item28-3.cpp}
+	\item  El problema es que se crea un objeto temporal al llamar a 
+	\textbf{BoundingBox} y cuando se termina el \textbf{scope} este se elimina 
+	entonces \textbf{pUpperLeft} referencia a un objeto eliminado creando asi un 
+	\textbf{dangling pointer}.
+	\framebreak
+	\item Evitad devolver \textbf{handles} de objetos internos de una clase. No 
+	devolverlos incrementa la encapsulación, ayuda a los mienbros \textbf{const} 
+	actuar como \textbf{const} y minimiza la creación de \textbf{dangling 
+	handles}.
 \end{itemize}
 \end{frame}
 
