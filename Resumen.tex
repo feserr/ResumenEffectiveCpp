@@ -304,7 +304,8 @@ used}
   el caso de que sea un elemento simple (p.e int) copiara los bits de uno a
   otro. En el caso de que sea una variable que no se pueda, p.e una variable
   \textbf{const}, el compilador no generara automáticamente estos métodos.
-  \item Es posible que el compilador genere implícitamente el \textbf{constructor}, \textbf{copy
+  \item Es posible que el compilador genere implícitamente el
+  \textbf{constructor}, \textbf{copy
 constructor}, \textbf{copy assignment operator} y \textbf{destructor}.
 \end{itemize}
 \end{frame}
@@ -319,15 +320,19 @@ you do not want}
 \frametitle{Item 6: Explicitly disallow the use of compiler generated functions
 you do not want}
 \begin{itemize}
-  \item Si no queremos que se hagan copias de nuestros objetos, debemos declarar los métodos
-  \textbf{copy constructor} y \textbf{copy assigment operator} privados, de este modo el error saldrá
+  \item Si no queremos que se hagan copias de nuestros objetos, debemos
+  declarar los métodos
+  \textbf{copy constructor} y \textbf{copy assigment operator} privados, de
+  este modo el error saldrá
   en la fase de enlace.
-  \item Si queremos hacer que el error sea en compilación, deberemos crear una clase como la siguiente.
+  \item Si queremos hacer que el error sea en compilación, deberemos crear una
+  clase como la siguiente.
 
   \begin{minipage}{\linewidth}
   \lstinputlisting{assets/listings/item6-1.cpp}
   \end{minipage}
-  De este modo, el objeto que no queramos que sea copiado, haremos que herede de forma privada
+  De este modo, el objeto que no queramos que sea copiado, haremos que herede
+  de forma privada
   del objeto anterior.
 \end{itemize}
 \end{frame}
@@ -447,7 +452,8 @@ destruction}
   (x = (y = (z = 15)));
   \end{minipage}
 
-  En este ejemplo el resultado de \texttt{z} se devuelve y lo coge \texttt{y} que a su vez lo devuelve y lo obtiene \texttt{x}
+  En este ejemplo el resultado de \texttt{z} se devuelve y lo coge \texttt{y}
+  que a su vez lo devuelve y lo obtiene \texttt{x}
 
   \item Para conseguir esto debemos devolver \textbf{*this} siempre que
   declaremos o sobrescribamos métodos de asignación.
@@ -464,7 +470,8 @@ destruction}
 \begin{frame}[fragile,allowframebreaks]
 \frametitle{Item 11: Handle assignment to self in operator=}
 \begin{itemize}
-  \item Es probable que sin darnos cuentas hagamos un \textbf{self assigment}, por ejemplo:
+  \item Es probable que sin darnos cuentas hagamos un \textbf{self assigment},
+  por ejemplo:
 
   \lstinputlisting{assets/listings/item11-1.cpp}
 
@@ -953,28 +960,79 @@ apply to all parameters}
 \frametitle{Item 28: Avoid returning ``handles'' to object internals}
 \begin{itemize}
 	\item \textbf{handles} son referencias, punteros y iteradores.
-	\item \textbf{Pass-by-reference} es mejor que \textbf{pass-by-value}. Un 
-	error seria intentar hacer lo mismo para los objetos que se devuelven en las 
+	\item \textbf{Pass-by-reference} es mejor que \textbf{pass-by-value}. Un
+	error seria intentar hacer lo mismo para los objetos que se devuelven en las
 	funciones.
-	\item El problema de devolver \textbf{handles} es que se puede acceder a todo 
+	\item El problema de devolver \textbf{handles} es que se puede acceder a todo
 	el objeto y podría llegar al siguiente problema.
 	\lstinputlisting{assets/listings/item28-1.cpp}
 	\framebreak
 	\item Una solución seria hacer:
 	\lstinputlisting{assets/listings/item28-2.cpp}
-	\item Aunque esto genera otro problema que se llama \textbf{dangling handles} 
+	\item Aunque esto genera otro problema que se llama \textbf{dangling handles}
 	que son \textbf{handles} que referencia a un objeto que ya no existe.
 	\framebreak
 	\lstinputlisting{assets/listings/item28-3.cpp}
-	\item  El problema es que se crea un objeto temporal al llamar a 
-	\textbf{BoundingBox} y cuando se termina el \textbf{scope} este se elimina 
-	entonces \textbf{pUpperLeft} referencia a un objeto eliminado creando asi un 
+	\item  El problema es que se crea un objeto temporal al llamar a
+	\textbf{BoundingBox} y cuando se termina el \textbf{scope} este se elimina
+	entonces \textbf{pUpperLeft} referencia a un objeto eliminado creando asi un
 	\textbf{dangling pointer}.
 	\framebreak
-	\item Evitad devolver \textbf{handles} de objetos internos de una clase. No 
-	devolverlos incrementa la encapsulación, ayuda a los mienbros \textbf{const} 
-	actuar como \textbf{const} y minimiza la creación de \textbf{dangling 
+	\item Evitad devolver \textbf{handles} de objetos internos de una clase. No
+	devolverlos incrementa la encapsulación, ayuda a los mienbros \textbf{const}
+	actuar como \textbf{const} y minimiza la creación de \textbf{dangling
 	handles}.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 29: Strive for exception-safe code.}
+\label{sec:item29}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 29: Strive for exception-safe code.}
+\begin{itemize}
+	\item Dada la siguente clase:
+  \lstinputlisting{assets/listings/item29-1.cpp}
+  \framebreak
+  \item Y la siguiente función:
+  \lstinputlisting{assets/listings/item29-2.cpp}
+  \item Podemos ver que de darse una excepción la cosa se puede poner fea.
+  \framebreak
+  \item Por lo tanto, si buscamos \textbf{exception-safety} hay dos
+  aproximaciones:
+  \begin{itemize}
+    \item \textbf{Leak no resources}, si se da una excepción crean la imagen
+     nueva, el \textbf{mutex} jamas se liberará.
+    \item \textbf{No permitir que las estructuras se hagan corruptas}, si se da
+     una excepción en el constructor, el puntero apuntara a un objeto eliminado
+     y el incremento se habrá hecho.
+  \end{itemize}
+  \item Solucionar el primer problema es fácil, usando RAII visto en el item~\ref{sec:item13}, el \textbf{mutex} se liberará cuando salga del \textbf{scope} usando los \textbf{locks} del item~\ref{sec:item14}:
+  \lstinputlisting{assets/listings/item29-3.cpp}
+  \item Menos código mejor, reduce la frequencia de que algo vaya mal.
+  \framebreak
+  \item Referente al problema segundo problema hay tres formas de solucionar de
+  abarcarlo:
+  \begin{itemize}
+    \item \textbf{La garantia básica}, la función garantiza que de darse un
+     excepción todo quedará en un estado valido. Por ejemplo:
+     \lstinputlisting{assets/listings/item29-4.cpp}
+     De esta forma, solo si se consigue crear el nuevo objeto se cambiara el
+      actual.
+    \framebreak
+    \item \textbf{La garantia fuerte}, la función garantiza que si se da una
+     excepción el estado quedará igual. Por ejemplo, si cambiamos la clase para que use una estructura con la imagen y el número de cambios:
+     \lstinputlisting{assets/listings/item29-5.cpp}
+     \framebreak
+     Luego, con el uso de \textbf{swap} podemos garantizar la \textbf{garantia fuerte}:
+     \lstinputlisting{assets/listings/item29-6.cpp}
+     De esta forma, solo se usará la nueva imagen y se incrementará si se consigue crear el objeto nuevo con la imagen actual, cambiar por la imagen nueva y el \textbf{swap} se efectua con éxito.
+     \framebreak
+     \item \textbf{La garantia nothrow} promete que la función nunca lanzará
+     ninguna excepción porqué hacen siempre lo que promete. Esto no quiere decir que no haya excepciones, sino que de darse alguna es un problema muy serio.
+  \end{itemize}
 \end{itemize}
 \end{frame}
 
