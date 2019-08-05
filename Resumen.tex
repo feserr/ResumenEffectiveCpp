@@ -158,6 +158,8 @@
 \tableofcontents[sections={3}]
 \framebreak
 \tableofcontents[sections={4}]
+\framebreak
+\tableofcontents[sections={5}]
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1033,6 +1035,30 @@ apply to all parameters}
      \item \textbf{La garantia nothrow} promete que la función nunca lanzará
      ninguna excepción porqué hacen siempre lo que promete. Esto no quiere decir que no haya excepciones, sino que de darse alguna es un problema muy serio.
   \end{itemize}
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 30: Understand the ins and outs of inlining.}
+\label{sec:item30}
+
+\begin{frame}
+\frametitle{Item 30: Understand the ins and outs of inlining.}
+\begin{itemize}
+	\item \textbf{Inline} es un petición al compilador, no una instrucción.
+  \item Sirve para decirle al compilador que reemplace la llamada a la función
+   por el código de la misma.
+  \item Si se usa demasiado, el código aumentara, lo que lleva a \textbf
+   {additional paging}, se reduce el \textbf{instruction cache hit rate} y las
+   penalizaciones en rendimiento que acarrea todo eso.
+  \item Si se usa para funciones pequeñas muy utilizadas, el código que se genera es menor y aumenta el \textbf{instruction cache hit rate}.
+  \item Hay dos formas de hacer las funciones \textbf{inline}:
+  \begin{itemize}
+    \item Declarando la función en la cabecera.
+    \item Usando el comando \textbf{inline}.
+  \end{itemize}
+  \item Hay que tener cuidado con declarar \textbf{inline} las funciones \textbf{template} solo por el hecho de que se declaran en las cabeceras. Solo hay que hacerlo cuando se crea necesario.
 \end{itemize}
 \end{frame}
 
