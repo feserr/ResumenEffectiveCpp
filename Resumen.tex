@@ -1110,10 +1110,55 @@ apply to all parameters}
   \item Como todo lo que se aplica en pájaro se aplica en pingüino, tendremos
    que estos son capaces de volar, cuando no lo son.
   \framebreak
-  \item Una posible solución seria crear una clase ``animal volador'' de la siguiente forma:
+  \item Una posible solución seria crear una clase ``animal volador'' de la
+   siguiente forma:
   \lstinputlisting{assets/listings/item32-2.cpp}
   \item De este modo, los pingüinos no son capaces de volar.
-  \item O tambíen se podria sobreescribir el método volar para que devuelva un error si intentas hacemos que el pingüino vuele.
+  \item O tambíen se podria sobreescribir el método volar para que devuelva un
+   error si intentas hacemos que el pingüino vuele.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 33: Avoid hiding inherited names.}
+\label{sec:item33}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 33: Avoid hiding inherited names.}
+\begin{itemize}
+  \item Para ponernos en contexto, cuando declaramos una variable, esta tiene
+   preferencia antes otras con el mismo nombre fuera del \textbf{scope}, por
+   ejemplo:
+  \lstinputlisting{assets/listings/item33-1.cpp}
+  \item Este mismo comportamiento sucede en la herencia.
+  \item Si tenemos las siguientes clases:
+  \framebreak
+  \lstinputlisting{assets/listings/item33-2.cpp}
+  \framebreak
+  \item Cuando el compilador vea la llamada a la función mf2 en mf4 tendrá que
+   buscar a que función hace referencia. Seguirá el siguiente procedimiento:
+   \begin{enumerate}
+     \item Buscará en el \textbf{scope} de mf4.
+     \item Mirara en la clase Derived.
+     \item Por último, ira a la clase Base.
+   \end{enumerate}
+  \item En el primer lugar donde la encuentre es el que usará.
+  \item Entonces, si tenemos las siguientes clases:
+  \framebreak
+  \lstinputlisting{assets/listings/item33-3.cpp}
+  \framebreak
+  \item Si ahora ejecutasemos el siguientes código tendriamos que:
+  \lstinputlisting{assets/listings/item33-4.cpp}
+  \item Para poder solucionar este problema tenemos que darle al compilador
+   la información de donde buscar. Esto se consigue usando \textbf{using} de la
+   siguiente forma:
+  \framebreak
+  \lstinputlisting{assets/listings/item33-5.cpp}
+  \item En el caso de que solo queramos \textbf{overload} unas pocas funciones
+   que compartan nombre, tendremos que usar el comando \textbf{using} para que
+   el compilador sea capaz de encontrar la función correcta que no hemos
+   \textbf{overload}.
 \end{itemize}
 \end{frame}
 
