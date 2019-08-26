@@ -1163,6 +1163,28 @@ apply to all parameters}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 34: Differentiate between inheritance of interface and
+ inheritance of implementation.}
+\label{sec:item34}
+
+\begin{frame}
+\frametitle{Item 34: Differentiate between inheritance of interface and
+ inheritance of implementation.}
+\begin{itemize}
+  \item Heredar de una interfaz es diferente que heredad de una implentación.
+   En la herencia pública, las clases derivadas siempre heredan las interfaces
+   de las clases base.
+  \item Las funciones virtuales puras especifican herencia de interfaz
+   solamente.
+  \item Funciones virtuales simples (inpuras) especifican herencia de interfaz
+   más herencia de una implementación por defecto.
+  \item Funciones no-virtuales espeficican herencia de interfaz más herencia de
+   una implementación mandatoria.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
