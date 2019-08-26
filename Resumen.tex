@@ -159,7 +159,7 @@
 \framebreak
 \tableofcontents[sections={4}]
 \framebreak
-\tableofcontents[sections={5}]
+\tableofcontents[sections={5-6}]
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1052,13 +1052,68 @@ apply to all parameters}
   \item Si se usa demasiado, el código aumentara, lo que lleva a \textbf
    {additional paging}, se reduce el \textbf{instruction cache hit rate} y las
    penalizaciones en rendimiento que acarrea todo eso.
-  \item Si se usa para funciones pequeñas muy utilizadas, el código que se genera es menor y aumenta el \textbf{instruction cache hit rate}.
+  \item Si se usa para funciones pequeñas muy utilizadas, el código que se
+   genera es menor y aumenta el \textbf{instruction cache hit rate}.
   \item Hay dos formas de hacer las funciones \textbf{inline}:
   \begin{itemize}
     \item Declarando la función en la cabecera.
     \item Usando el comando \textbf{inline}.
   \end{itemize}
-  \item Hay que tener cuidado con declarar \textbf{inline} las funciones \textbf{template} solo por el hecho de que se declaran en las cabeceras. Solo hay que hacerlo cuando se crea necesario.
+  \item Hay que tener cuidado con declarar \textbf{inline} las funciones
+    \textbf{template} solo por el hecho de que se declaran en las cabeceras.
+   Solo hay que hacerlo cuando se crea necesario.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 31: Minimize compilation dependencies between files..}
+\label{sec:item31}
+
+\begin{frame}
+\frametitle{Item 31: Minimize compilation dependencies between files.}
+\begin{itemize}
+	\item El compilador necesita saber el tamaño de los objetos que se usan
+   en tiempo de compilación. Por lo tanto, algo común es incluir las cabeceras
+   debe dichos objetos.
+  \item El problema de incluir estas cabeceras es que un cambio en ellas te hara
+   tener que recompilar todas las clases donde se usen.
+  \item Hay tres simples estrategias de diseño para solucionar este problema:
+  \begin{enumerate}
+    \item Evitar usar objetos cuando referencias o punteros son suficientes.
+    \item Depender en la declaración de las clases y no en la definición de las
+     clases.
+    \item Usar cabeceras distintas para la declaración y definición de las
+     clases. Este se conoce como \textbf{pimpl idiom}. Aun así, el uso de esta
+     estrategia reduce la velocidad en ejecución y aumenta el uso de memoria
+     por cada objeto que lo use.
+  \end{enumerate}
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Inheritance and Object-Oriented Design}
+
+\subsection{Item 32: Make sure public inheritance models ``is-a.''}
+\label{sec:item32}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 32: Make sure public inheritance models ``is-a.''}
+\begin{itemize}
+  \item Todo lo que se aplica a las clases base también se aplica a las clases
+   derivadas, porqué toda clase derivada es una clase base.
+  \item Por lo tanto, si creasemos la clase pájaro con la función para volar y
+   luego definiesemos la clase pingüino que hereda de pájaro de esta forma:
+  \lstinputlisting{assets/listings/item32-1.cpp}
+  \item Como todo lo que se aplica en pájaro se aplica en pingüino, tendremos
+   que estos son capaces de volar, cuando no lo son.
+  \framebreak
+  \item Una posible solución seria crear una clase ``animal volador'' de la siguiente forma:
+  \lstinputlisting{assets/listings/item32-2.cpp}
+  \item De este modo, los pingüinos no son capaces de volar.
+  \item O tambíen se podria sobreescribir el método volar para que devuelva un error si intentas hacemos que el pingüino vuele.
 \end{itemize}
 \end{frame}
 
