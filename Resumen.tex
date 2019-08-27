@@ -1257,6 +1257,40 @@ apply to all parameters}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 36: Never redefine an inherited non-virtual function.}
+\label{sec:item36}
+
+\begin{frame}
+\frametitle{Item 36: Never redefine an inherited non-virtual function.}
+\begin{itemize}
+  \item Si una clase derivada usa el mismo nombre de una función base que no es
+   virtual, esta ocultara la de la clase base y se llamará a la que esta en la
+   derivada:
+  \lstinputlisting{assets/listings/item36-1.cpp}
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 37: Never redefine a function’s inherited default
+parameter value.}
+\label{sec:item37}
+
+\begin{frame}
+\frametitle{Item 37: Never redefine a function’s inherited default
+parameter value.}
+\begin{itemize}
+  \item Las funciones virtuales son \textbf{dynamically bound}, pero los
+   parametros por defecto son \textbf{statically bound}.
+  \item Si sobrecargamos una función con un parametros por defecto de la base y
+   cambiamos ese valor en la derivada, el valor por defecto a usar siempre será
+   el de la clase base:
+  \lstinputlisting{assets/listings/item37-1.cpp}
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
