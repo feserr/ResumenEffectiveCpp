@@ -1,0 +1,1 @@
+typedef std::tr1::function<int (const GameCharacter&)> HealthCalcFunc;

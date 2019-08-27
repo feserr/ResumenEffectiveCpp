@@ -137,9 +137,9 @@
 
 \begin{document}
   \title[]{Resumen del libro Effective C++}
-  \author[feserr]{
+  \author[Elías Serrano]{
     \begin{tabular}{r@{ }l}
-      \multicolumn{2}{c}{feserr}
+      \multicolumn{2}{c}{Elías Serrano}
     \end{tabular}
   }
   \institute[Resumen del libro Effective C++]
@@ -1011,7 +1011,9 @@ apply to all parameters}
      una excepción en el constructor, el puntero apuntara a un objeto eliminado
      y el incremento se habrá hecho.
   \end{itemize}
-  \item Solucionar el primer problema es fácil, usando RAII visto en el item~\ref{sec:item13}, el \textbf{mutex} se liberará cuando salga del \textbf{scope} usando los \textbf{locks} del item~\ref{sec:item14}:
+  \item Solucionar el primer problema es fácil, usando RAII visto en el
+   item~\ref{sec:item13}, el \textbf{mutex} se liberará cuando salga del
+   \textbf{scope} usando los \textbf{locks} del item~\ref{sec:item14}:
   \lstinputlisting{assets/listings/item29-3.cpp}
   \item Menos código mejor, reduce la frequencia de que algo vaya mal.
   \framebreak
@@ -1180,7 +1182,77 @@ apply to all parameters}
   \item Funciones virtuales simples (inpuras) especifican herencia de interfaz
    más herencia de una implementación por defecto.
   \item Funciones no-virtuales espeficican herencia de interfaz más herencia de
-   una implementación mandatoria.
+   una implementación.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 35: Consider alternatives to virtual functions.}
+\label{sec:item35}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 35: Consider alternatives to virtual functions.}
+\begin{itemize}
+  \item Dada la siguiete clase:
+  \lstinputlisting{assets/listings/item35-1.cpp}
+  \item Las diferentes estrategias para no usar el convencional diseño orientado
+   a objetos serian:
+  \framebreak
+  \begin{enumerate}
+    \item The Template Method Pattern via the Non-Virtual Interface Idiom.
+    \begin{itemize}
+      \item En este diseño tendremos la función healthValue publica y sin ser
+        virtual y la función que hará el trabajo y podrá ser sobrecargada será
+        una privada llamada doHealthValue como podemos ver en el siguiente
+        código:
+        \lstinputlisting{assets/listings/item35-2.cpp}
+        \item En este diseño ganamos la habilidad de poder hacer algo antes y
+         después de llamar a la función virtual.
+        \item Aunque podamos cambiar el comportamiento de doHealthValue, la
+         clase base se reserva el derecho de llamar a la clase virtual.
+    \end{itemize}
+    \framebreak
+    \item The Strategy Pattern via Function Pointers.
+    \begin{itemize}
+      \item La idea es usar punteros a funciones que tengan el comportamiento
+       que se desea, por ejemplo:
+      \lstinputlisting{assets/listings/item35-3.cpp}
+      \framebreak
+      \item Esto nos ofrece la flexibilidad para:
+        \item[1.] Diferentes instancias del mismo objeto pueden usar funciones
+         distintas:
+        \lstinputlisting{assets/listings/item35-4.cpp}
+        \item[2.] La función puede cambiarse en tiempo de ejecución.
+    \end{itemize}
+    \framebreak
+    \item The Strategy Pattern via stl::function.
+    \begin{itemize}
+      \item Para este diseño usaremos el mismo código que en punto anterior
+       cambiando el \textbf{typedef} por:
+       \lstinputlisting{assets/listings/item35-5.cpp}
+      \item Ahora usamos stl::function en vez de un puntero normal a una
+       función.
+      \framebreak
+      \item Por lo tanto, si tenemos estas clases:
+      \lstinputlisting{assets/listings/item35-6.cpp}
+      \item Nos permite poder hacer lo siguiente:
+      \lstinputlisting{assets/listings/item35-7.cpp}
+      \item stl::function nos da mucha versatibilidad. Podemos pasar una
+       función, la función de un objeto o usar std::bind.
+      \item std::bind lo que hace es ``anidar'' la funcion \texttt{health} del
+       objeto \texttt{currentLevel} para hacer el calculo.
+    \end{itemize}
+    \framebreak
+    \item The ``Classic'' Strategy Pattern.
+    \begin{itemize}
+      \item Sino deseamos usar funcionalidades de C++ y quedarnos con un enfoque
+      clásico, podemos hacer que el calculo sea una clase base la cual pueda
+      ser heredada por otras que cambien la función. Por ejemplo:
+      \framebreak
+      \lstinputlisting{assets/listings/item35-8.cpp}
+    \end{itemize}
+  \end{enumerate}
 \end{itemize}
 \end{frame}
 
