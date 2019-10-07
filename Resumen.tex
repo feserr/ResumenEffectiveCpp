@@ -1355,7 +1355,24 @@ parameter value.}
 \begin{frame}
 \frametitle{Item 39: Use private inheritance judiciously.}
 \begin{itemize}
-  \item
+  \item Reglas de la herencia privada:
+  \begin{enumerate}
+    \item El compilador no convertirá la clase derivada a la clase base.
+    \item Todo lo heredado se convierte en privado pese a que en la clase base
+     sea \textbf{protected} o \textbf{public}.
+  \end{enumerate}
+  \item La herencia privada es \textbf{is-implemented-in-terms-of}, por lo que
+   solo se hereda la implementación; las interfaces deben ser ignoradas. Si D
+   hereda privadamente de B quiere decir que los objetos de D se implementan
+   como B, nada más.
+  \item Puede usarse para conseguir la \textbf{empty base optimization} (EBO).
+  Consiste en heredad de forma privada de una clase vacia. Esto hace, en la
+  mayoría de compiladores, a que el objeto ocupe la memoria que tiene y que no
+  se añada ningun \textbf{padding}. Por ejemplo:
+
+  \lstinputlisting{assets/listings/item39-1.cpp}
+
+  Tendremos que sizeof(HoldsAnInt) == sizeof(int).
 \end{itemize}
 \end{frame}
 
