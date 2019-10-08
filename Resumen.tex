@@ -1377,6 +1377,58 @@ parameter value.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 40: Use mutiple inheritance judiciously.}
+\label{sec:item40}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 40: Use mutiple inheritance judiciously.}
+\begin{itemize}
+  \item Uno de los principales problemas con la multiherencia es que podemos
+   heredar de dos clases que implementan una función con el mismo nombre, lo que
+   genera un error de ambigüedad.
+  \item También podemos encontrarnos con el famoso problema
+   ``deadly MI diamond'':
+
+  \lstinputlisting{assets/listings/item40-1.cpp}
+
+  \item Una forma de solucionar esto es usando herencia \textbf{virtual}. Puede
+   parecer que siempre que usemos herencia pública debamos de usar herencia
+   pública virtual.
+  \item La herencia virtual no es gratuita, esta requiere un trabajo extra por
+   parte del compilador. Como resultado tendremos clases que ocupan más y son
+   más lentas que si no usasen herencia virtual.
+
+  \framebreak
+
+  \item Si usamos herencia virtual hay que tener en cuenta que el responsable
+   de inicializar la clase base recae sobre última clase derivada de la
+   herarquia. Por lo que si se añadiese otra clase derivada, esta se deberia
+   de encargar de inicializar su base virtual (tanto directa como indirecta).
+  \item Por lo tanto, se debe usar herencia virtual solamente cuando se
+   necesario y de hacerlo intentar hacerlo con clases que no contengan datos.
+   Así es como funcionan las \textbf{interfaces} en Java y .NET.
+
+  \framebreak
+
+  \item Aun así, la herencia multiple es util para un uso en concreto. Podemos
+   heredar de una interfaz pública y heredad la implementación de forma privada
+   de otra clase. Por ejemplo, si tienemos una interfaz IPerson y una clase
+   PersonInfo que provee de lo necesario para poder crear IPerson como podemos
+   ver a continuación:
+
+  \lstinputlisting{assets/listings/item40-2.cpp}
+
+  \framebreak
+
+  \item Por lo que podremos crear una clase CPerson que implemente la interfaz
+   IPerson usando PersonInfo:
+
+   \lstinputlisting{assets/listings/item40-3.cpp}
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
