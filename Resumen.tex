@@ -67,7 +67,8 @@
 \usepackage{caption}
 \usepackage[noabbrev]{cleveref}
 
-\captionsetup[subfigure]{subrefformat=simple,labelformat=simple,listofformat=subsimple}
+\captionsetup[subfigure]{subrefformat=simple,labelformat=simple,
+  listofformat=subsimple}
 \renewcommand\thesubfigure{(\alph{subfigure})}
 
 \usepackage{subfig}
@@ -159,7 +160,11 @@
 \framebreak
 \tableofcontents[sections={4}]
 \framebreak
-\tableofcontents[sections={5-6}]
+\tableofcontents[sections={5}]
+\framebreak
+\tableofcontents[sections={6}]
+\framebreak
+\tableofcontents[sections={7}]
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1425,6 +1430,30 @@ parameter value.}
    IPerson usando PersonInfo:
 
    \lstinputlisting{assets/listings/item40-3.cpp}
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Templates and Generic Programing}
+
+\subsection{Item 41: Understand implicit interfaces and compiletime
+  polymorphism.}
+\label{sec:item41}
+
+\begin{frame}
+\frametitle{Item 41: Understand implicit interfaces and compiletime
+  polymorphism.}
+\begin{itemize}
+  \item Tanto las clases como templates soportan interfaces y polimorfismo.
+  \item Para las clases, las interfaces son explícitas y centradas en
+    \textbf{function signatures} (nombre de funciones, tipos de los parametros,
+    tipo de retorno, etc). El polimorfismo ocurre en tiempo de ejecución
+    mediante funciones virtuales.
+  \item Para los parametros templates, las interfaces son implícitas y basadas
+    en expresiones válidas. Polimorfismo ocurre en compilación mediante
+    instanciación del template y sobrecarga de resolución de funciones.
 \end{itemize}
 \end{frame}
 
