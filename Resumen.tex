@@ -1,9 +1,26 @@
 \documentclass[10pt]{beamer}
+
+\ifxetex
+  \usepackage{polyglossia}
+  \setmainlanguage{spanish}
+
+  % Tabla en lugar de cuadro
+  \addto\captionsspanish{%
+  \renewcommand{\tablename}{Tabla}%
+  \renewcommand{\listtablename}{Índice de tablas}%
+  }
+
+\else
+  \usepackage[spanish,es-tabla]{babel}
+  % Para los acentos (xelatex no lo necesita)
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern}
+\fi
+
 \usepackage{etex}
 \setbeamertemplate{navigation symbols}{}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[spanish]{babel}
+
 \setcounter{tocdepth}{3}
 \usepackage{color}
 \usepackage{amsmath,comment,dcolumn,graphicx,letterspace,multicol,multirow}
@@ -137,16 +154,16 @@
 \beamersetuncovermixins{\opaqueness<1>{25}}{\opaqueness<2->{15}}
 
 \begin{document}
-  \title[]{Resumen del libro Effective C++}
-  \author[Elías Serrano]{
-    \begin{tabular}{r@{ }l}
-      \multicolumn{2}{c}{Elías Serrano}
-    \end{tabular}
-  }
-  \institute[Resumen del libro Effective C++]
+\title[]{Resumen del libro Effective C++}
+\author[Elías Serrano]{
+  \begin{tabular}{r@{ }l}
+    \multicolumn{2}{c}{Elías Serrano}
+  \end{tabular}
+}
+\institute[Resumen del libro Effective C++]
 
-  \begin{frame}
-  \titlepage
+\begin{frame}
+\titlepage
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1454,6 +1471,57 @@ parameter value.}
   \item Para los parametros templates, las interfaces son implícitas y basadas
     en expresiones válidas. Polimorfismo ocurre en compilación mediante
     instanciación del template y sobrecarga de resolución de funciones.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 42: Understand the tow meanings of typename.}
+\label{sec:item42}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 42: Understand the tow meanings of typename.}
+\begin{itemize}
+  \item Cuando declaramos un template da igual que usemos \textbf{typename} o
+    \textbf{class}.
+  \item Aun así, C++ no ve siempre esa equivalencia y hay veces que hay que
+    usar explicitamente \textbf{typename}.
+  \item El problema radica con los \textbf{nested depedant type names}. Por
+    ejemplo, en el siguiente código:
+
+  \lstinputlisting{assets/listings/item42-1.cpp}
+
+    Podemos pensar que \textbf{x} es un puntero de tipo
+    \textbf{C::const\_iterator} ya que pensamos que es un tipo, pero ¿y si no lo
+    es? ¿Y si \textbf{const\_iterator} es una variable estática de \textbf{C} y
+    \textbf{x} una variable global? De ser así, el código no declararía una
+    variable sino que haría una multiplicación.
+
+  \framebreak
+
+  \item Por lo tanto, en el siguiente ejemplo:
+
+  \lstinputlisting{assets/listings/item42-2.cpp}
+
+    También tendriamos un error ya que no sabemos si \textbf{c::const\_iterator}
+    es un tipo, por lo que para arreglarlo tendriamos que añadir
+    \textbf{typename}:
+
+  \lstinputlisting{assets/listings/item42-3.cpp}
+
+  \framebreak
+
+  \item La regla es simple: siempre que tengas una referencia a un
+    \textbf{nested depedant type name} debes usar \textbf{typename}. Aun así,
+    esta regla tiene dos excepciones:
+    \begin{enumerate}
+      \item En la lista de clases que vas a heredar.
+      \item En los miembros de inicialización del constructor.
+    \end{enumerate}
+
+  \item Veamos estas excepciones en el siguiente ejemplo:
+
+  \lstinputlisting{assets/listings/item42-4.cpp}
 \end{itemize}
 \end{frame}
 
