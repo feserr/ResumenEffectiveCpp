@@ -1526,6 +1526,155 @@ parameter value.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 43: Know how to access names in templatized base classes.}
+\label{sec:item43}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 43: Know how to access names in templatized base classes.}
+\begin{itemize}
+  \item De cirto modo, podemos decir que la herencia cambia cuando usamos
+    \textbf{templates}.
+  \item Imaginemos que tenemos la siguentes clases:
+
+  \lstinputlisting{assets/listings/item43-1.cpp}
+
+  \item Las dos implemetan diferentes compañias que pueden mandar mensajes de
+    forma norma, encriptados o ambos.
+
+  \framebreak
+
+  \item Y si tenemos la siguente clase para hacer uso de estas compañias:
+
+  \lstinputlisting{assets/listings/item43-2.cpp}
+
+  \framebreak
+
+  \item Si ahora declarasemos el siguiente \textbf{template} para hacer uso de
+    esta última de la siguente manera:
+
+  \lstinputlisting{assets/listings/item43-3.cpp}
+
+  \item Este solo funcionará si se trata de CompanyA ya que existe la función
+    SendCleartext. Uno de los posible errores que el compilador te puede decir
+    es que esa función no existe en la función base cuando no has usado la
+    CompanyB.
+
+  \framebreak
+
+  \item Por lo tanto, para solventar el problema tenemos que decirle a C++ que
+    no mire en la clase base. Una es usando \textbf{this}:
+
+  \lstinputlisting{assets/listings/item43-4.cpp}
+
+  \framebreak
+
+  \item Usando \textbf{using}:
+
+  \lstinputlisting{assets/listings/item43-5.cpp}
+
+  \item El problema es que aquí solo se buscaran las funciones en la clase base
+    y no en la derivada.
+
+  \framebreak
+
+  \item Especificando explicitamente que se va a usar la clase base.
+
+  \lstinputlisting{assets/listings/item43-6.cpp}
+
+  \item Esta es la menos recomendada debido a que si la función es virtual esto
+    deshabilitará el \textbf{virtual binding behaviour}.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 44: Factor parameter-independent code out of templates.}
+\label{sec:item44}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Item 44: Factor parameter-independent code out of templates.}
+\begin{itemize}
+  \item Las \textbf{templates} nos ayudan a ahorrar tiempo y a reducir código
+    replicado.
+  \item Si no tenemos cuidado podemos generar \textbf{code bloat}.
+  \item Por ejemplo, si tenemos un \textbf{template} de matrices de tamaño fijo
+    que soporta la inversión:
+
+  \lstinputlisting{assets/listings/item44-1.cpp}
+
+  \item Esta matriz no solo puede ser de diferentes tipos sino de diferentes
+    tamaños.
+
+  \framebreak
+
+  \item Para usarla podriamos hacer lo siguiente:
+
+  \lstinputlisting{assets/listings/item44-2.cpp}
+
+  \item El problema es que se generará código no solo por cada tipo, sino que
+    tambien por cada tamaño.
+  \item La función \textbf{invert} no sera la misma para \textbf{double} de 5x5
+    que para \textbf{double} de 10x10.
+  \item Esto se da porqué el \textbf{template} depende del tipo y del tamaño.
+
+  \framebreak
+
+  \item Una posible solución será hacer que la función \textbf{invert} tenga el
+    tamaño como parametro de entrada:
+
+  \lstinputlisting{assets/listings/item44-3.cpp}
+
+  \framebreak
+
+  \item Ahora la clase base no depende del tamaño, por lo que solo se generará
+    una implementación para todos los tamaños por cada tipo usado.
+  \item El problema ahora es ¿como sabe la función \textbf{invert} donde estan
+    los datos con los que tiene que operar?
+  \item Una solución será que acepte por parametro el puntero de los datos:
+
+  \lstinputlisting{assets/listings/item44-4.cpp}
+
+  \framebreak
+
+  \item Ahora contamos con una función para decirle a la clase base donde están
+    los datos con los que operar.
+  \item Objetos de este tipo no necesitan memoria dinámica, aun así pueden
+    llegar a ser muy altos.
+  \item Podemos usar \textbf{boost::scoped\_array} para manterlos en el
+    \textbf{heap}.
+  \item Con esto tenemos solucionados todos los posibles problemas de
+    \textbf{code bloat}, aun así, los \textbf{templates} que dependan del
+    tamanño generán mejor código que este último.
+
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Item 45: Use member function templates to accept ``all compatible
+  types.''}
+\label{sec:item45}
+
+\begin{frame}
+\frametitle{Item 45: Use member function templates to accept ``all compatible
+  types.''}
+\begin{itemize}
+  \item Si queremos construir una clase \textbf{template} de un tipo a partir
+    de otro tenemos que declarar el \textbf{constructor} y
+    \textbf{copy constructor} genericos.
+  \item Por ejemplo, la forma en como funciona \textbf{shared\_ptr} es la
+    siguiente:
+
+  \lstinputlisting{assets/listings/item45-1.cpp}
+
+  \item A parte de crear los \textbf{constructor} y \textbf{copy constructor}
+    base, tenemos que generar los genericos para aceptar cualquier tipo
+    compatible.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}

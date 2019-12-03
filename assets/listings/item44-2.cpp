@@ -1,0 +1,6 @@
+SquareMatrix<double, 5> sm1;
+...
+sm1.invert();
+SquareMatrix<double, 10> sm2;
+...
+sm2.invert();
